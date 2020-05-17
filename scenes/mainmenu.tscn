@@ -1,4 +1,29 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends WindowDialog
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	popup_centered()
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+
+func _on_menu_popup_hide():
+	popup_centered()
+	pass # Replace with function body.
+"
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -11,7 +36,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="menu" type="Panel" parent="."]
+[node name="menu" type="WindowDialog" parent="."]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 308.185
@@ -21,10 +47,9 @@ margin_bottom = -247.162
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 300, 130 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
+window_title = "Main Menu"
+resizable = true
+script = SubResource( 1 )
 
 [node name="stuff" type="Control" parent="menu"]
 anchor_right = 1.0
@@ -144,3 +169,4 @@ uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="popup_hide" from="menu" to="menu" method="_on_menu_popup_hide"]
