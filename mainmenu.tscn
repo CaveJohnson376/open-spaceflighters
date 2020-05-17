@@ -1,0 +1,146 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.157959
+margin_top = 1.23871
+margin_right = -0.157959
+margin_bottom = 1.23871
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -153.5
+margin_top = -71.0
+margin_right = 153.5
+margin_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stuff" type="Control" parent="menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="nickname" type="LineEdit" parent="menu/stuff"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_right = -5.0
+margin_bottom = 24.0
+text = "Player 1"
+align = 2
+max_length = 50
+placeholder_text = "Player 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="port" type="SpinBox" parent="menu/stuff"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_top = 24.0
+margin_right = -5.0
+margin_bottom = 48.0
+min_value = 1.0
+max_value = 65535.0
+value = 6708.0
+rounded = true
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IP" type="LineEdit" parent="menu/stuff"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_top = 48.3406
+margin_right = -5.0
+margin_bottom = 72.3406
+text = "127.0.0.1"
+align = 2
+placeholder_text = "127.0.0.1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="newgame" type="Button" parent="menu/stuff"]
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -30.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Start new game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="joingame" type="Button" parent="menu/stuff"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -30.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Join existing game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelnick" type="Label" parent="menu/stuff"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 4.88704
+margin_bottom = 18.887
+text = "Your nickname:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelport" type="Label" parent="menu/stuff"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 28.887
+margin_bottom = 42.887
+text = "Server port:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelip" type="Label" parent="menu/stuff"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 52.887
+margin_bottom = 66.887
+text = "Server IP (Join only):"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gamename" type="Label" parent="menu"]
+anchor_right = 1.0
+margin_bottom = 20.0
+text = "OpenSpaceflighter"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
