@@ -12,17 +12,17 @@ __meta__ = {
 }
 
 [node name="menu" type="Panel" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -153.5
-margin_top = -71.0
-margin_right = 153.5
-margin_bottom = 71.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 308.185
+margin_top = 188.838
+margin_right = -305.815
+margin_bottom = -247.162
 grow_horizontal = 2
 grow_vertical = 2
+rect_min_size = Vector2( 300, 130 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
