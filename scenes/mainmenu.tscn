@@ -1,6 +1,96 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+var plrsam = null #preload(\"res://player.tscn\")
+var players = {}
+
+func _ready():
+	get_tree().connect(\"network_peer_connected\", self, \"on_player_connect\")
+	get_tree().connect(\"network_peer_disconnected\", self, \"on_player_disconnect\")
+	get_tree().connect(\"connected_to_server\", self, \"on_connect_ok\")
+	#get_tree().connect(\"connection_failed\", self, \"on_connect_fail\")
+	get_tree().connect(\"server_disconnected\", self, \"on_server_disconnect\")
+	pass
+
+remote func register_player(id):
+	players[id] = \"\"
+	if get_tree().is_network_server():
+		rpc_id(id, \"register_player\", 1)
+		for peer_id in players:
+			#rpc_id(id, \"register_player\", peer_id)
+			rpc_id(peer_id, \"register_player\", id)
+		pass
+	print(\"register\")
+	pass
+
+func create_player(id):
+	var player = plrsam.instance()
+	player.name = str(id)
+	player.set_network_master(id)
+	add_child(player)
+	player.player_id = id
+	pass
+
+func start_game():
+	if get_tree().is_network_server():
+		create_player(1)
+		pass
+	for peer_id in players:
+		create_player(peer_id)
+	pass
+
+func _input(event):
+	pass
+
+func on_player_connect(id):
+	print(str(id)+\" has joined the game\")
+	register_player(id)
+	pass
+
+func on_player_disconnect():
+	pass
+
+func on_connect_ok():
+	start_game()
+	pass
+
+func on_server_disconnect():
+	pass
+
+func _on_join():
+	var peer = NetworkedMultiplayerENet.new()
+	var ip = $CanvasLayer/menus/mainmenu/stuff/IP.text
+	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
+	peer.create_client(ip, port)
+	get_tree().set_network_peer(peer)
+	register_player(get_tree().get_network_unique_id())
+	pass
+
+
+func _on_host():
+	var peer = NetworkedMultiplayerENet.new()
+	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
+	peer.create_server(port, 100)
+	get_tree().set_network_peer(peer)
+	register_player(get_tree().get_network_unique_id())
+	start_game()
+	pass 
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends WindowDialog
+
+func _ready():
+	popup_centered()
+	pass # Replace with function body.
+
+func _on_menu_popup_hide():
+	popup()
+	pass # Replace with function body.
+"
+
+[sub_resource type="GDScript" id=3]
 script/source = "extends WindowDialog
 
 
@@ -11,47 +101,58 @@ script/source = "extends WindowDialog
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	popup_centered()
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
-
-
-func _on_menu_popup_hide():
-	popup_centered()
-	pass # Replace with function body.
 "
 
-[node name="Control" type="Control"]
+[sub_resource type="GDScript" id=4]
+script/source = "extends Panel
+
+func _ready():
+	pass
+
+func _process(delta):
+	anchor_right = 1
+	pass
+"
+
+[node name="game" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="menus" type="Control" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.157959
-margin_top = 1.23871
-margin_right = -0.157959
-margin_bottom = 1.23871
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="menu" type="WindowDialog" parent="."]
-visible = true
+[node name="mainmenu" type="WindowDialog" parent="CanvasLayer/menus"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 308.185
-margin_top = 188.838
-margin_right = -305.815
-margin_bottom = -247.162
+margin_left = 631.857
+margin_top = 198.67
+margin_right = -92.143
+margin_bottom = -271.33
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 300, 130 )
+popup_exclusive = true
 window_title = "Main Menu"
 resizable = true
-script = SubResource( 1 )
+script = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
 
-[node name="stuff" type="Control" parent="menu"]
+[node name="stuff" type="Control" parent="CanvasLayer/menus/mainmenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 20.0
@@ -61,7 +162,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="nickname" type="LineEdit" parent="menu/stuff"]
+[node name="nickname" type="LineEdit" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_left = 0.5
 anchor_right = 1.0
 margin_right = -5.0
@@ -70,11 +171,13 @@ text = "Player 1"
 align = 2
 max_length = 50
 placeholder_text = "Player 1"
+caret_blink = true
+caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="port" type="SpinBox" parent="menu/stuff"]
+[node name="port" type="SpinBox" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_left = 0.5
 anchor_right = 1.0
 margin_top = 24.0
@@ -89,7 +192,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IP" type="LineEdit" parent="menu/stuff"]
+[node name="IP" type="LineEdit" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_left = 0.5
 anchor_right = 1.0
 margin_top = 48.3406
@@ -98,11 +201,13 @@ margin_bottom = 72.3406
 text = "127.0.0.1"
 align = 2
 placeholder_text = "127.0.0.1"
+caret_blink = true
+caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="newgame" type="Button" parent="menu/stuff"]
+[node name="newgame" type="Button" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
@@ -115,7 +220,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="joingame" type="Button" parent="menu/stuff"]
+[node name="joingame" type="Button" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 1.0
@@ -129,7 +234,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="labelnick" type="Label" parent="menu/stuff"]
+[node name="labelnick" type="Label" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_right = 0.5
 margin_left = 5.0
 margin_top = 4.88704
@@ -139,7 +244,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="labelport" type="Label" parent="menu/stuff"]
+[node name="labelport" type="Label" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_right = 0.5
 margin_left = 5.0
 margin_top = 28.887
@@ -149,7 +254,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="labelip" type="Label" parent="menu/stuff"]
+[node name="labelip" type="Label" parent="CanvasLayer/menus/mainmenu/stuff"]
 anchor_right = 0.5
 margin_left = 5.0
 margin_top = 52.887
@@ -159,7 +264,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="gamename" type="Label" parent="menu"]
+[node name="gamename" type="Label" parent="CanvasLayer/menus/mainmenu"]
 anchor_right = 1.0
 margin_bottom = 20.0
 text = "OpenSpaceflighter"
@@ -169,4 +274,64 @@ uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="popup_hide" from="menu" to="menu" method="_on_menu_popup_hide"]
+
+[node name="chat" type="WindowDialog" parent="CanvasLayer/menus"]
+margin_left = 220.0
+margin_top = 147.0
+margin_right = 420.0
+margin_bottom = 247.0
+rect_min_size = Vector2( 200, 100 )
+popup_exclusive = true
+window_title = "Chat"
+resizable = true
+script = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="msgs" type="ScrollContainer" parent="CanvasLayer/menus/chat"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -50.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="msgs" type="Panel" parent="CanvasLayer/menus/chat/msgs"]
+margin_right = 190.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 190, 45 )
+script = SubResource( 4 )
+
+[node name="msg" type="TextEdit" parent="CanvasLayer/menus/chat"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -45.0
+margin_right = -55.0
+margin_bottom = -5.0
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="send" type="Button" parent="CanvasLayer/menus/chat"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = -45.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Send"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="popup_hide" from="CanvasLayer/menus/mainmenu" to="CanvasLayer/menus/mainmenu" method="_on_menu_popup_hide"]
