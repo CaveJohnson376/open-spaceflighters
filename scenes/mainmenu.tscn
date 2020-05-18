@@ -6,6 +6,8 @@ var plrsam = preload(\"res://scenes/spaceship.tscn\")
 var players = {}
 var nickname
 var state = \"IDLE\"
+var isplaying = false
+var ishost = false
 
 func setstate(newstate):
 	state = newstate
@@ -18,6 +20,8 @@ func _ready():
 	#get_tree().connect(\"connection_failed\", self, \"on_connect_fail\")
 	get_tree().connect(\"server_disconnected\", self, \"on_server_disconnect\")
 	setstate(\"IDLE\")
+	$CanvasLayer/menus/mainmenu.popup_centered()
+	$CanvasLayer/menus/mainmenu.isplaying = false
 	pass
 
 remote func register_player(id, nickname):
@@ -42,6 +46,8 @@ func create_player(id, nickname):
 
 func start_game():
 	setstate(\"PLAYING_AS_\"+(\"HOST\" if state == \"HOSTING\" else \"PLAYER\"))
+	isplaying = true
+	$CanvasLayer/menus/mainmenu.setstate(true)
 	if get_tree().is_network_server():
 		create_player(1, nickname)
 		pass
@@ -85,6 +91,8 @@ func _on_join():
 	peer.create_client(ip, port)
 	get_tree().set_network_peer(peer)
 	register_player(get_tree().get_network_unique_id(), nickname)
+	ishost = false
+	$CanvasLayer/menus/mainmenu.setstate(true)
 	pass
 
 
@@ -97,19 +105,37 @@ func _on_host():
 	get_tree().set_network_peer(peer)
 	register_player(get_tree().get_network_unique_id(), nickname)
 	start_game()
+	ishost = true
+	$CanvasLayer/menus/mainmenu.setstate(true)
 	pass 
+
+
+func _on_disconnect():
+	get_tree().network_peer.close_connection()
+	isplaying = false
+	ishost = false
+	$CanvasLayer/menus/mainmenu.setstate(false)
+	for child in $players.get_children():
+		child.queue_free()
+	pass # Replace with function body.
 "
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends WindowDialog
+var isplaying = false
 
-func _ready():
-	popup_centered()
-	pass # Replace with function body.
 
-func _on_menu_popup_hide():
-	popup()
-	pass # Replace with function body.
+func _process(delta):
+	
+	$stuff/IP.editable = !isplaying
+	$stuff/disconnect.disabled = !isplaying
+	$stuff/joingame.disabled = isplaying
+	$stuff/newgame.disabled = isplaying
+	$stuff/nickname.editable = !isplaying
+	$stuff/port.editable = !isplaying
+
+func setstate(newstate):
+	isplaying = newstate
 "
 
 [sub_resource type="GDScript" id=3]
@@ -159,10 +185,10 @@ __meta__ = {
 visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 631.857
-margin_top = 198.67
-margin_right = -92.143
-margin_bottom = -241.33
+margin_left = 620.667
+margin_top = 158.352
+margin_right = -103.333
+margin_bottom = -281.648
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 300, 130 )
@@ -171,6 +197,7 @@ window_title = "Main Menu"
 resizable = true
 script = SubResource( 2 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -371,3 +398,4 @@ __meta__ = {
 [connection signal="popup_hide" from="CanvasLayer/menus/mainmenu" to="CanvasLayer/menus/mainmenu" method="_on_menu_popup_hide"]
 [connection signal="pressed" from="CanvasLayer/menus/mainmenu/stuff/newgame" to="." method="_on_host"]
 [connection signal="pressed" from="CanvasLayer/menus/mainmenu/stuff/joingame" to="." method="_on_join"]
+[connection signal="pressed" from="CanvasLayer/menus/mainmenu/stuff/disconnect" to="." method="_on_disconnect"]
