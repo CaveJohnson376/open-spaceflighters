@@ -156,12 +156,13 @@ __meta__ = {
 }
 
 [node name="mainmenu" type="WindowDialog" parent="CanvasLayer/menus"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 631.857
 margin_top = 198.67
 margin_right = -92.143
-margin_bottom = -271.33
+margin_bottom = -241.33
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 300, 130 )
@@ -170,7 +171,6 @@ window_title = "Main Menu"
 resizable = true
 script = SubResource( 2 )
 __meta__ = {
-"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -234,9 +234,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = -30.0
+margin_top = -60.0
 margin_right = -5.0
-margin_bottom = -5.0
+margin_bottom = -35.0
 text = "Start new game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -248,9 +248,9 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = -30.0
+margin_top = -60.0
 margin_right = -5.0
-margin_bottom = -5.0
+margin_bottom = -35.0
 text = "Join existing game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -285,6 +285,16 @@ text = "Server IP (Join only):"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="disconnect" type="Button" parent="CanvasLayer/menus/mainmenu/stuff"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -30.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Disconnect"
 
 [node name="gamename" type="Label" parent="CanvasLayer/menus/mainmenu"]
 anchor_right = 1.0
