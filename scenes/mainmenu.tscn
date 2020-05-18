@@ -2,8 +2,10 @@
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
-var plrsam = null #preload(\"res://player.tscn\")
+var plrsam = preload(\"res://scenes/spaceship.tscn\")
 var players = {}
+var nickname
+var state = \"IDLE\"
 
 func _ready():
 	get_tree().connect(\"network_peer_connected\", self, \"on_player_connect\")
@@ -13,31 +15,32 @@ func _ready():
 	get_tree().connect(\"server_disconnected\", self, \"on_server_disconnect\")
 	pass
 
-remote func register_player(id):
-	players[id] = \"\"
+remote func register_player(id, nickname):
+	players[id] = nickname
 	if get_tree().is_network_server():
-		rpc_id(id, \"register_player\", 1)
+		rpc_id(id, \"register_player\", 1, nickname)
 		for peer_id in players:
 			#rpc_id(id, \"register_player\", peer_id)
-			rpc_id(peer_id, \"register_player\", id)
+			rpc_id(peer_id, \"register_player\", id, nickname)
 		pass
 	print(\"register\")
 	pass
 
-func create_player(id):
+func create_player(id, nickname):
 	var player = plrsam.instance()
-	player.name = str(id)
+	player.nickname = nickname
 	player.set_network_master(id)
-	add_child(player)
+	$players.add_child(player)
 	player.player_id = id
 	pass
 
 func start_game():
+	state = \"PLAYING_AS_\"+(\"HOST\" if state == \"HOSTING\" else \"PLAYER\")
 	if get_tree().is_network_server():
-		create_player(1)
+		create_player(1, nickname)
 		pass
 	for peer_id in players:
-		create_player(peer_id)
+		create_player(peer_id, players[peer_id])
 	pass
 
 func _input(event):
@@ -45,10 +48,13 @@ func _input(event):
 
 func on_player_connect(id):
 	print(str(id)+\" has joined the game\")
-	register_player(id)
+	register_player(id, \"\")
 	pass
 
-func on_player_disconnect():
+func on_player_disconnect(id):
+	for node in $players.get_children():
+		if node.player_id == id:
+			node.queue_free()
 	pass
 
 func on_connect_ok():
@@ -56,24 +62,31 @@ func on_connect_ok():
 	pass
 
 func on_server_disconnect():
+	state = \"IDLE\"
+	for node in $players.get_children():
+		node.queue_free()
 	pass
 
 func _on_join():
+	state = \"JOINING\"
 	var peer = NetworkedMultiplayerENet.new()
 	var ip = $CanvasLayer/menus/mainmenu/stuff/IP.text
 	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
+	nickname = $CanvasLayer/menus/mainmenu/stuff/nickname.text
 	peer.create_client(ip, port)
 	get_tree().set_network_peer(peer)
-	register_player(get_tree().get_network_unique_id())
+	register_player(get_tree().get_network_unique_id(), nickname)
 	pass
 
 
 func _on_host():
+	state = \"HOSTING\"
 	var peer = NetworkedMultiplayerENet.new()
 	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
+	nickname = $CanvasLayer/menus/mainmenu/stuff/nickname.text
 	peer.create_server(port, 100)
 	get_tree().set_network_peer(peer)
-	register_player(get_tree().get_network_unique_id())
+	register_player(get_tree().get_network_unique_id(), nickname)
 	start_game()
 	pass 
 "
@@ -334,4 +347,8 @@ text = "Send"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="players" type="Node2D" parent="."]
 [connection signal="popup_hide" from="CanvasLayer/menus/mainmenu" to="CanvasLayer/menus/mainmenu" method="_on_menu_popup_hide"]
+[connection signal="pressed" from="CanvasLayer/menus/mainmenu/stuff/newgame" to="." method="_on_host"]
+[connection signal="pressed" from="CanvasLayer/menus/mainmenu/stuff/joingame" to="." method="_on_join"]
