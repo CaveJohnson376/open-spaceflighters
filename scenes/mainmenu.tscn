@@ -7,12 +7,17 @@ var players = {}
 var nickname
 var state = \"IDLE\"
 
+func setstate(newstate):
+	state = newstate
+	print(state)
+
 func _ready():
 	get_tree().connect(\"network_peer_connected\", self, \"on_player_connect\")
 	get_tree().connect(\"network_peer_disconnected\", self, \"on_player_disconnect\")
 	get_tree().connect(\"connected_to_server\", self, \"on_connect_ok\")
 	#get_tree().connect(\"connection_failed\", self, \"on_connect_fail\")
 	get_tree().connect(\"server_disconnected\", self, \"on_server_disconnect\")
+	setstate(\"IDLE\")
 	pass
 
 remote func register_player(id, nickname):
@@ -27,6 +32,7 @@ remote func register_player(id, nickname):
 	pass
 
 func create_player(id, nickname):
+	print(\"creatingplayer...\")
 	var player = plrsam.instance()
 	player.nickname = nickname
 	player.set_network_master(id)
@@ -35,12 +41,15 @@ func create_player(id, nickname):
 	pass
 
 func start_game():
-	state = \"PLAYING_AS_\"+(\"HOST\" if state == \"HOSTING\" else \"PLAYER\")
+	setstate(\"PLAYING_AS_\"+(\"HOST\" if state == \"HOSTING\" else \"PLAYER\"))
 	if get_tree().is_network_server():
 		create_player(1, nickname)
 		pass
 	for peer_id in players:
-		create_player(peer_id, players[peer_id])
+		if peer_id == 1:
+			pass
+		else:
+			create_player(peer_id, players[peer_id])
 	pass
 
 func _input(event):
@@ -62,13 +71,13 @@ func on_connect_ok():
 	pass
 
 func on_server_disconnect():
-	state = \"IDLE\"
+	setstate(\"IDLE\")
 	for node in $players.get_children():
 		node.queue_free()
 	pass
 
 func _on_join():
-	state = \"JOINING\"
+	setstate(\"JOINING\")
 	var peer = NetworkedMultiplayerENet.new()
 	var ip = $CanvasLayer/menus/mainmenu/stuff/IP.text
 	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
@@ -80,7 +89,7 @@ func _on_join():
 
 
 func _on_host():
-	state = \"HOSTING\"
+	setstate(\"HOSTING\")
 	var peer = NetworkedMultiplayerENet.new()
 	var port = $CanvasLayer/menus/mainmenu/stuff/port.value
 	nickname = $CanvasLayer/menus/mainmenu/stuff/nickname.text
