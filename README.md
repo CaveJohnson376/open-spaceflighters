@@ -7,9 +7,11 @@ Spaceship:
 - A/D - apply rotational force CCW/CW
 - Q/E - set max/min throttle
 - W/S - increase/decrease throttle
+
 Chat:
 - ~ - open chat
 - enter - send message
+
 Misc: 
 - esc - menu
 
