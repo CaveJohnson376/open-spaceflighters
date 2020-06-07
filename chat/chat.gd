@@ -1,18 +1,23 @@
 extends WindowDialog
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
+remote func sendmsg(msg):
+	$ScrollContainer/Label.text+=msg
+	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	anchor_right = 1
-	margin_right = 0
+	$ScrollContainer/Label.rect_min_size.x = $ScrollContainer.rect_size.x - 15
+	if Input.is_action_just_pressed("focus_chat"):
+		popup_centered()
+		$msg.grab_focus()
+	if Input.is_action_just_pressed("ui_accept") and $msg.has_focus():
+		send()
+		pass
+	pass
+
+func send():
+	var message = "["+$"/root/Gamemanager".nickname+"]: "+$msg.text+"\n"
+	rpc("sendmsg", message)
 	pass

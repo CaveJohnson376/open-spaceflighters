@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://game/game.gd" type="Script" id=1]
+[ext_resource path="res://chat/chat.tscn" type="PackedScene" id=2]
 
 [node name="game" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="players" type="Node2D" parent="."]
+
+[node name="chat" parent="." instance=ExtResource( 2 )]
+visible = false

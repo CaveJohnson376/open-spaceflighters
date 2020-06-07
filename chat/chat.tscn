@@ -5,10 +5,10 @@
 [node name="chat" type="WindowDialog"]
 visible = true
 margin_left = 220.0
-margin_top = 146.401
-margin_right = 518.0
-margin_bottom = 309.401
-rect_min_size = Vector2( 200, 100 )
+margin_top = 146.0
+margin_right = 520.0
+margin_bottom = 296.0
+rect_min_size = Vector2( 300, 150 )
 popup_exclusive = true
 window_title = "Chat"
 resizable = true
@@ -45,6 +45,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -50.0
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ScrollContainer"]
+margin_right = 275.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 275, 100 )
+text = "[CaveJohnson376]: hullo it's scott manley there
+[FlyMaster]: hullo lol
+[BlackHole]: wtf it is lagging
+[JohnTheCF]: hello guys
+[Pugemon]: anyone wanna trap pic?"
+autowrap = true
+clip_text = true
+[connection signal="pressed" from="send" to="." method="send"]
