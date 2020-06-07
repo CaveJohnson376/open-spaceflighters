@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spaceship_normal.png-819b308efc271b09e1626ca7ec5a6ee9.stex"
+path="res://.import/spaceship.png-7da7f40586546089ff3818279e891683.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/spaceship_normal.png"
-dest_files=[ "res://.import/spaceship_normal.png-819b308efc271b09e1626ca7ec5a6ee9.stex" ]
+source_file="res://spaceship/spaceship.png"
+dest_files=[ "res://.import/spaceship.png-7da7f40586546089ff3818279e891683.stex" ]
 
 [params]
 
@@ -18,7 +18,7 @@ compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
-compress/normal_map=1
+compress/normal_map=0
 flags/repeat=0
 flags/filter=false
 flags/mipmaps=false

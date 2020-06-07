@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spaceship_heightmap.png-2468a8a5ed324b015b5aa4fe35e67f90.stex"
+path="res://.import/engine_emmisions.png-9c82855545c0d3cf87b9c965e3662664.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/spaceship_heightmap.png"
-dest_files=[ "res://.import/spaceship_heightmap.png-2468a8a5ed324b015b5aa4fe35e67f90.stex" ]
+source_file="res://spaceship/engine_emmisions.png"
+dest_files=[ "res://.import/engine_emmisions.png-9c82855545c0d3cf87b9c965e3662664.stex" ]
 
 [params]
 
