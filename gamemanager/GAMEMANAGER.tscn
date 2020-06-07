@@ -6,3 +6,4 @@
 script = ExtResource( 1 )
 [connection signal="host" from="." to="." method="_on_host"]
 [connection signal="join" from="." to="." method="_on_join"]
+[connection signal="start_game" from="." to="." method="start_game_2"]

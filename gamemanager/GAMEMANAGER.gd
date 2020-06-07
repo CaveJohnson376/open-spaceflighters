@@ -9,6 +9,7 @@ export var ready = false
 signal create_player(id, playername)
 signal host(port, plrcount, nick)
 signal join(ip, port, nick)
+signal start_game()
 
 
 func _ready():
@@ -30,14 +31,10 @@ remote func register_player(id, nickname):
 	print("register")
 	pass
 
-func start_game():
-	print("get me on lockdown!")
+func start_game_1():
 	get_tree().change_scene("res://game/game.tscn")
-	print("before the locking loop...")
-	while not ready:
-		print("BRUH")
-		pass
-	print("...and after")
+
+func start_game_2():
 	isplaying = true
 	if get_tree().is_network_server():
 		emit_signal("create_player", 1, nickname)
@@ -64,7 +61,7 @@ func on_player_disconnect(id):
 
 func on_connect_ok():
 	
-	start_game()
+	start_game_1()
 	pass
 
 func on_server_disconnect():
@@ -79,7 +76,7 @@ func _on_host(port, plrcount, nick):
 	register_player(get_tree().get_network_unique_id(), nickname)
 	print("here we go (for real)")
 	ishost = true
-	start_game()
+	start_game_1()
 
 func _on_join(ip, port, nick):
 	nickname = nick

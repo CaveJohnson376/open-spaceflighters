@@ -4,7 +4,7 @@ var nickname
 
 func _ready():
 	$"/root/Gamemanager".connect("create_player", self, "cplayer")
-	$"/root/Gamemanager".ready = true
+	$"/root/Gamemanager".emit_signal("start_game")
 	
 	pass
 
