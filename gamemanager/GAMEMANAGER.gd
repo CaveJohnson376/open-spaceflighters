@@ -1,9 +1,10 @@
-extends Node2D
+extends Node
 export var players = {}
 export var nickname = "player"
 export var isplaying = false
 export var ishost = false
 export var issingleplayer = false
+export var ready = false
 
 signal create_player(id, playername)
 
@@ -27,6 +28,9 @@ remote func register_player(id, nickname):
 	pass
 
 func start_game():
+	
+	while not ready:
+		pass
 	isplaying = true
 	if get_tree().is_network_server():
 		emit_signal("create_player", 1, nickname)
@@ -46,20 +50,21 @@ func on_player_connect(id):
 	pass
 
 func on_connect_fail():
-	
 	pass
 
 func on_player_disconnect(id):
 	pass
 
 func on_connect_ok():
+	
 	start_game()
 	pass
 
 func on_server_disconnect():
 	pass
 
-func _on_join(ip, port):
+func _on_join(ip, port, nick):
+	nickname = nick
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_client(ip, port)
 	get_tree().set_network_peer(peer)
@@ -68,7 +73,8 @@ func _on_join(ip, port):
 	pass
 
 
-func _on_host(port, plrcount):
+func _on_host(port, plrcount, nick):
+	nickname = nick
 	var peer = NetworkedMultiplayerENet.new()
 	peer.create_server(port, plrcount)
 	get_tree().set_network_peer(peer)
@@ -81,3 +87,5 @@ func _on_disconnect():
 	get_tree().network_peer.close_connection()
 	isplaying = false
 	ishost = false
+
+

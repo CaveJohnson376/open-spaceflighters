@@ -16,8 +16,22 @@ _global_script_class_icons={
 [application]
 
 config/name="open-spaceflighters"
-run/main_scene="res://game/game.tscn"
+run/main_scene="res://mainmenu/mainmenu.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Gamemanager="*res://gamemanager/GAMEMANAGER.tscn"
+
+[debug]
+
+settings/crash_handler/message="Game has crashed! Please, report this to https://github.com/CaveJohnson376/open-spaceflighters"
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_argument=false
+
+[display]
+
+window/handheld/orientation="sensor_landscape"
 
 [input]
 
@@ -68,6 +82,13 @@ engine_down={
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+threads/thread_model=2
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+quality/shadows/filter_mode=2
+quality/shadows/filter_mode.mobile=1
+quality/filters/use_nearest_mipmap_filter=true
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"

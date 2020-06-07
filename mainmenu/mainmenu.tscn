@@ -210,3 +210,5 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="mainmenu/multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="multiplayer/newgame" to="." method="_on_startmultiplayergame"]
+[connection signal="pressed" from="multiplayer/joingame" to="." method="_on_joinmultiplayergame"]
