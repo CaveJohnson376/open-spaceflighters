@@ -1,0 +1,212 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mainmenu/mainmenu.gd" type="Script" id=1]
+
+[node name="mainmenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="mainmenu" type="WindowDialog" parent="."]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 621.0
+margin_top = 158.0
+margin_right = -253.0
+margin_bottom = -282.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 150, 130 )
+popup_exclusive = true
+window_title = "Main Menu"
+resizable = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="gamename" type="Label" parent="mainmenu"]
+anchor_right = 1.0
+margin_bottom = 20.0
+text = "OpenSpaceflighter"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="singleplayer" type="Button" parent="mainmenu"]
+anchor_right = 1.0
+margin_left = 5.0
+margin_top = 20.0
+margin_right = -5.0
+margin_bottom = 44.0
+disabled = true
+text = "Play alone (SOON)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="multiplayer" type="Button" parent="mainmenu"]
+anchor_right = 1.0
+margin_left = 5.0
+margin_top = 49.0
+margin_right = -5.0
+margin_bottom = 73.0
+text = "Play with friends"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="multiplayer" type="WindowDialog" parent="."]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 309.0
+margin_top = 302.0
+margin_right = -415.0
+margin_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 300, 130 )
+window_title = "Multiplayer"
+resizable = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="nickname" type="LineEdit" parent="multiplayer"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_right = -5.0
+margin_bottom = 22.0
+text = "Player"
+align = 2
+max_length = 50
+placeholder_text = "Player 1"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="port" type="SpinBox" parent="multiplayer"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_top = 24.0
+margin_right = -5.0
+margin_bottom = 48.0
+min_value = 1.0
+max_value = 65535.0
+value = 6708.0
+rounded = true
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="maxplayers" type="SpinBox" parent="multiplayer"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_top = 48.0
+margin_right = -5.0
+margin_bottom = 72.0
+min_value = 1.0
+max_value = 500.0
+value = 20.0
+rounded = true
+align = 2
+suffix = "players"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IP" type="LineEdit" parent="multiplayer"]
+anchor_left = 0.5
+anchor_right = 1.0
+margin_top = 72.3406
+margin_right = -5.0
+margin_bottom = 96.3406
+text = "127.0.0.1"
+align = 2
+placeholder_text = "127.0.0.1"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="newgame" type="Button" parent="multiplayer"]
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -30.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Start new game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="joingame" type="Button" parent="multiplayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -30.0
+margin_right = -5.0
+margin_bottom = -5.0
+text = "Join existing game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelnick" type="Label" parent="multiplayer"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 5.88705
+margin_bottom = 19.8871
+text = "Your nickname:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelport" type="Label" parent="multiplayer"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 29.887
+margin_bottom = 43.887
+text = "Server port:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelmaxplayers" type="Label" parent="multiplayer"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 53.887
+margin_bottom = 67.887
+text = "Player limit:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="labelip" type="Label" parent="multiplayer"]
+anchor_right = 0.5
+margin_left = 5.0
+margin_top = 77.887
+margin_bottom = 91.887
+text = "Server IP (Join only):"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="mainmenu/multiplayer" to="." method="_on_multiplayer_pressed"]
