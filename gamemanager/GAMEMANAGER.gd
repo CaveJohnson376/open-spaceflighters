@@ -7,6 +7,9 @@ export var issingleplayer = false
 export var ready = false
 
 signal create_player(id, playername)
+signal host(port, plrcount, nick)
+signal join(ip, port, nick)
+
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "on_player_connect")
@@ -28,9 +31,13 @@ remote func register_player(id, nickname):
 	pass
 
 func start_game():
-	
+	print("get me on lockdown!")
+	get_tree().change_scene("res://game/game.tscn")
+	print("before the locking loop...")
 	while not ready:
+		print("BRUH")
 		pass
+	print("...and after")
 	isplaying = true
 	if get_tree().is_network_server():
 		emit_signal("create_player", 1, nickname)
@@ -63,6 +70,17 @@ func on_connect_ok():
 func on_server_disconnect():
 	pass
 
+func _on_host(port, plrcount, nick):
+	print("everything should be alright")
+	nickname = nick
+	var peer = NetworkedMultiplayerENet.new()
+	peer.create_server(port, plrcount)
+	get_tree().set_network_peer(peer)
+	register_player(get_tree().get_network_unique_id(), nickname)
+	print("here we go (for real)")
+	ishost = true
+	start_game()
+
 func _on_join(ip, port, nick):
 	nickname = nick
 	var peer = NetworkedMultiplayerENet.new()
@@ -72,19 +90,9 @@ func _on_join(ip, port, nick):
 	ishost = false
 	pass
 
-
-func _on_host(port, plrcount, nick):
-	nickname = nick
-	var peer = NetworkedMultiplayerENet.new()
-	peer.create_server(port, plrcount)
-	get_tree().set_network_peer(peer)
-	register_player(get_tree().get_network_unique_id(), nickname)
-	start_game()
-	ishost = true
-
-
 func _on_disconnect():
 	get_tree().network_peer.close_connection()
+	get_tree().change_scene("res://mainmenu/mainmenu.tscn")
 	isplaying = false
 	ishost = false
 

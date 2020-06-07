@@ -4,3 +4,5 @@
 
 [node name="GAMEMANAGER" type="Node"]
 script = ExtResource( 1 )
+[connection signal="host" from="." to="." method="_on_host"]
+[connection signal="join" from="." to="." method="_on_join"]

@@ -9,10 +9,11 @@ func _on_multiplayer_pressed():
 	pass
 
 func _on_startmultiplayergame():
-	$"/root/Gamemanager"._on_host($multiplayer/port.value, $multiplayer/maxplayers.value, $multiplayer/nickname.text)
+	print("here we go")
+	$"/root/Gamemanager".emit_signal("host", $multiplayer/port.value, $multiplayer/maxplayers.value, $multiplayer/nickname.text)
 	pass
 
 
 func _on_joinmultiplayergame():
-	$"/root/Gamemanager"._on_join($multiplayer/IP.value, $multiplayer/port.value, $multiplayer/nickname.text)
+	$"/root/Gamemanager".emit_signal("join", $multiplayer/IP.text, $multiplayer/port.value, $multiplayer/nickname.text)
 	pass
