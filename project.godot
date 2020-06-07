@@ -94,5 +94,5 @@ vram_compression/import_etc2=false
 quality/shadows/filter_mode=2
 quality/shadows/filter_mode.mobile=1
 quality/filters/use_nearest_mipmap_filter=true
-environment/default_clear_color=Color( 0.572549, 0.572549, 0.572549, 1 )
+environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"
