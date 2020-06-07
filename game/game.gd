@@ -1,5 +1,5 @@
 extends Node2D
-var plrsam = preload("res://scenes/spaceship.tscn")
+var plrsam = preload("res://spaceship/spaceship.tscn")
 var nickname
 
 func _ready():

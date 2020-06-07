@@ -69,7 +69,6 @@ texture = ExtResource( 5 )
 normal_map = ExtResource( 2 )
 
 [node name="beacon" type="Light2D" parent="."]
-visible = false
 position = Vector2( 0, -62 )
 texture = ExtResource( 3 )
 texture_scale = 50.0
