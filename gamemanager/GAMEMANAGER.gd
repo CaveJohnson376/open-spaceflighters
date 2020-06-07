@@ -11,7 +11,6 @@ signal host(port, plrcount, nick)
 signal join(ip, port, nick)
 signal start_game()
 
-
 func _ready():
 	get_tree().connect("network_peer_connected", self, "on_player_connect")
 	get_tree().connect("network_peer_disconnected", self, "on_player_disconnect")
