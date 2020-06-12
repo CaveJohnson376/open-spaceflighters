@@ -13,7 +13,7 @@ script = ExtResource( 1 )
 [node name="world" type="Node2D" parent="."]
 
 [node name="Ankugantu" parent="world" instance=ExtResource( 3 )]
-position = Vector2( 0, 2778 )
+position = Vector2( 0, 1000 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="world"]
 color = Color( 0, 0, 0, 1 )

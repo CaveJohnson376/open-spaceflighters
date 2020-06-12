@@ -31,11 +31,10 @@ func _ready():
 
 func _process(delta):
 	if is_network_master():
-		$Engine_particles.scale = total_throttle * Vector2(0.1, 0.1)/100
-		
+		$Engine_particles.scale = total_throttle * Vector2(0.1, 0.1)
 		$Camera2D.zoom = zoom*Vector2(1, 1)
 	else:
-		$Engine_particles.scale = total_throttle_pub * Vector2(0.1, 0.1)/100
+		$Engine_particles.scale = total_throttle_pub * Vector2(0.1, 0.1)
 	pass
 
 func _physics_process(delta):
