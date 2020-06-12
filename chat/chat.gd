@@ -15,7 +15,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("focus_chat") and not $msg.has_focus():
 		popup_centered()
 		$msg.grab_focus()
-	if Input.is_action_just_pressed("ui_accept") and $msg.has_focus():
+	if Input.is_action_just_pressed("ui_accept") and $msg.has_focus() and not Input.is_action_pressed("shift_modifier"):
 		send()
 		pass
 	$"/root/Gamemanager".ischatopen = visible
@@ -26,6 +26,9 @@ func _process(delta):
 	pass
 
 func send():
-	var message = "["+$"/root/Gamemanager".nickname+"]: "+$msg.text+"\n"
+	var message = "\n["+$"/root/Gamemanager".nickname+"]: "+$msg.text
+	message.erase(message.length()-1, 1)
+	$msg.text = ""
 	rpc("sendmsg", message)
+	sendmsg(message)
 	pass

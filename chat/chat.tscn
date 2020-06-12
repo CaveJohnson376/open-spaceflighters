@@ -67,5 +67,4 @@ text = "[CaveJohnson376]: hullo it's scott manley there
 [JohnTheCF]: hello guys
 [Pugemon]: anyone wanna trap pic?"
 autowrap = true
-clip_text = true
 [connection signal="pressed" from="send" to="." method="send"]

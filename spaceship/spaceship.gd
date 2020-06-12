@@ -85,5 +85,5 @@ func _input(event):
 	if event is InputEventMouseButton:
 		zoom -= 0.01 if event.button_index == BUTTON_WHEEL_UP else 0
 		zoom += 0.01 if event.button_index == BUTTON_WHEEL_DOWN else 0
-		zoom = clamp(zoom, 0.02, 0.5)
+		zoom = clamp(zoom, 0.05, 0.5)
 	pass
