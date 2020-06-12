@@ -17,8 +17,7 @@ radius = 250.0
 scale = Vector2( 0.1, 0.1 )
 
 [node name="Center" type="Sprite" parent="Textures"]
-visible = false
-scale = Vector2( 10, 10 )
+scale = Vector2( 9.6, 9.6 )
 texture = ExtResource( 1 )
 
 [node name="surface" type="Node2D" parent="Textures"]

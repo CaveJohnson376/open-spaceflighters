@@ -5,6 +5,9 @@ export var isplaying = false
 export var ishost = false
 export var issingleplayer = false
 export var ready = false
+export var ischatopen = false
+export var ischatactive = false
+export var unreadmsgs = 0
 
 signal create_player(id, playername)
 signal host(port, plrcount, nick)

@@ -64,6 +64,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="multiplayer2" type="Button" parent="mainmenu"]
+anchor_right = 1.0
+margin_left = 5.0
+margin_top = 78.0
+margin_right = -5.0
+margin_bottom = 102.0
+disabled = true
+text = "Settings (TBD)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="multiplayer" type="WindowDialog" parent="."]
 visible = true
 anchor_right = 1.0

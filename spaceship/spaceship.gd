@@ -1,14 +1,15 @@
 extends RigidBody2D
 
 const MIN_TIME = 0.05
-const max_thrust = 1
-const max_ang_thrust = 0.05
+const max_thrust = 5
+const max_ang_thrust = 0.15
 var throttle = 0
 var total_throttle = 0
 puppet var total_throttle_pub = 0
 var thrust = 0
 var timer = 0
 var zoom = 0.1
+var iscact = false
 export var nickname = ""
 export var player_id = 0
 puppet var my_position = Vector2(0, 0)
@@ -35,23 +36,28 @@ func _process(delta):
 		$Camera2D.zoom = zoom*Vector2(1, 1)
 	else:
 		$Engine_particles.scale = total_throttle_pub * Vector2(0.1, 0.1)
+	
+	var unreadmsgs = $"/root/Gamemanager".unreadmsgs
+	var msgcount = "" if unreadmsgs == 0 else (" ("+str(clamp(unreadmsgs, 999, 0))+")")
+	$CanvasLayer/FlightUI/openchat.text = "Chat"+msgcount
+	iscact = $"/root/Gamemanager".ischatactive
 	pass
 
 func _physics_process(delta):
 	timer += delta
 	if is_network_master():
-		throttle += 0.01 if Input.is_action_pressed("engine_up") else 0
-		throttle -= 0.01 if Input.is_action_pressed("engine_down") else 0
-		throttle = 1 if Input.is_action_pressed("engine_max") else throttle
-		throttle = 0 if Input.is_action_pressed("engine_min") else throttle
+		throttle += 0.01 if Input.is_action_pressed("engine_up") and not iscact else 0
+		throttle -= 0.01 if Input.is_action_pressed("engine_down") and not iscact else 0
+		throttle = 1 if Input.is_action_pressed("engine_max") and not iscact else throttle
+		throttle = 0 if Input.is_action_pressed("engine_min") and not iscact else throttle
 		throttle = clamp(throttle, 0, 1)
 		
-		total_throttle = (1 if Input.is_action_pressed("engine_pulse")else throttle)
+		total_throttle = (1 if Input.is_action_pressed("engine_pulse") and not iscact else throttle)
 		thrust = max_thrust*total_throttle
 		linear_velocity+=thrust*Vector2(0, -1).rotated(rotation)
 		
-		angular_velocity-=max_ang_thrust if Input.is_action_pressed("rotateleft") else 0
-		angular_velocity+=max_ang_thrust if Input.is_action_pressed("rotateright") else 0
+		angular_velocity-=max_ang_thrust if Input.is_action_pressed("rotateleft") and not iscact else 0
+		angular_velocity+=max_ang_thrust if Input.is_action_pressed("rotateright") and not iscact else 0
 		
 		$Camera2D.rotation_degrees = angular_velocity*-10
 		
@@ -78,7 +84,7 @@ func _physics_process(delta):
 
 func _input(event):
 	if event is InputEventMouseButton:
-		zoom -= 0.02 if event.button_index == BUTTON_WHEEL_UP else 0
-		zoom += 0.02 if event.button_index == BUTTON_WHEEL_DOWN else 0
+		zoom -= 0.01 if event.button_index == BUTTON_WHEEL_UP else 0
+		zoom += 0.01 if event.button_index == BUTTON_WHEEL_DOWN else 0
 		zoom = clamp(zoom, 0.02, 0.5)
 	pass

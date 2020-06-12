@@ -48,7 +48,6 @@ func _process(delta):
 "
 
 [node name="player" type="RigidBody2D"]
-mass = 10.0
 physics_material_override = SubResource( 1 )
 can_sleep = false
 linear_damp = 0.0
@@ -106,10 +105,34 @@ polygon = PoolVector2Array( 0, -5.1, 1.7, -1.7, 1.7, 4.8, -1.7, 4.8, -1.7, -1.7 
 
 [node name="Camera2D" type="Camera2D" parent="."]
 rotating = true
-current = true
 zoom = Vector2( 0.1, 0.1 )
 smoothing_speed = 10.0
 drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FlightUI" type="Panel" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -200.0
+margin_top = -100.0
+margin_right = 200.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="openchat" type="Button" parent="CanvasLayer/FlightUI"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 25.0
+shortcut_in_tooltip = false
+text = "Chat"
+__meta__ = {
+"_edit_use_anchors_": false
+}

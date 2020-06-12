@@ -3,7 +3,6 @@
 [ext_resource path="res://chat/chat.gd" type="Script" id=1]
 
 [node name="chat" type="WindowDialog"]
-visible = true
 margin_left = 220.0
 margin_top = 146.0
 margin_right = 520.0
