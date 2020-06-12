@@ -26,6 +26,7 @@ func _ready():
 		$nicknameholder.visible = false
 	else:
 		$Camera2D.queue_free()
+		$CanvasLayer.queue_free()
 		pass
 	print("playercreated")
 	pass
@@ -34,12 +35,15 @@ func _process(delta):
 	if is_network_master():
 		$Engine_particles.scale = total_throttle * Vector2(0.1, 0.1)
 		$Camera2D.zoom = zoom*Vector2(1, 1)
+		var unreadmsgs = $"/root/Gamemanager".unreadmsgs
+		var msgcount = "" if unreadmsgs == 0 else (" ("+str(clamp(unreadmsgs, 999, 0))+")")
+		$CanvasLayer/FlightUI/openchat.text = "Chat"+msgcount
+		$CanvasLayer/FlightUI/velocity.text = "Velocity: "+str(linear_velocity.length())
+		$CanvasLayer/FlightUI/altitude.text = "Altitude: "+str(position.distance_to(Vector2(0, 1000)))
 	else:
 		$Engine_particles.scale = total_throttle_pub * Vector2(0.1, 0.1)
 	
-	var unreadmsgs = $"/root/Gamemanager".unreadmsgs
-	var msgcount = "" if unreadmsgs == 0 else (" ("+str(clamp(unreadmsgs, 999, 0))+")")
-	$CanvasLayer/FlightUI/openchat.text = "Chat"+msgcount
+	
 	iscact = $"/root/Gamemanager".ischatactive
 	
 
