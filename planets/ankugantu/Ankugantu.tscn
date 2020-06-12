@@ -2416,6 +2416,7 @@ offset = Vector2( -0.000217438, -2475 )
 [node name="SOI" type="Area2D" parent="."]
 space_override = 4
 gravity_point = true
+gravity = 9.8
 linear_damp = 0.0
 angular_damp = 0.0
 

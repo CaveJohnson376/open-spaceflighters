@@ -8,6 +8,7 @@ export var ready = false
 export var ischatopen = false
 export var ischatactive = false
 export var unreadmsgs = 0
+export onready var local_player = self
 
 signal create_player(id, playername)
 signal host(port, plrcount, nick)

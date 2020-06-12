@@ -41,7 +41,7 @@ func _process(delta):
 	var msgcount = "" if unreadmsgs == 0 else (" ("+str(clamp(unreadmsgs, 999, 0))+")")
 	$CanvasLayer/FlightUI/openchat.text = "Chat"+msgcount
 	iscact = $"/root/Gamemanager".ischatactive
-	pass
+	
 
 func _physics_process(delta):
 	timer += delta
@@ -70,7 +70,6 @@ func _physics_process(delta):
 			timer = 0
 			
 		
-	
 	else:
 		if not (my_position == Vector2(0, 0)):
 			position = my_position

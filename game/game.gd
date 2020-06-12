@@ -2,6 +2,9 @@ extends Node2D
 var plrsam = preload("res://spaceship/spaceship.tscn")
 var nickname
 
+#TODO: solar system generator, with SOI priority and orbits
+
+
 func _ready():
 	$"/root/Gamemanager".connect("create_player", self, "cplayer")
 	$"/root/Gamemanager".emit_signal("start_game")
