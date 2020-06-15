@@ -17,14 +17,24 @@ Other:
 - esc - menu (not done yet)
 - C - change camera mode (not done yet)
 
+# How to run
+Releases are not available currently, so use Godot editor to run.
+
 # TODO:
-- Properly working mutliplayer
-- Singleplayer
+- Mutliplayer fixes
+- Singleplayer (maybe with saving and timewarp?)
 - Settings and stuff it affects
 - Translations
-- More planets
-- Procedurally-generated planets instead of static ones
+- Planets
+- - Moar planets
+- - Atmospherics
+- - Procedural graphics
+- - Oceans
+- - Procedural generation
 - Camera modes
+- Map view (where you can see all the rockets, planets and their movement vectors)
+- Screenshots
 - Public multiplayer servers
 - Dedicated server
+- Cross-platform support
 - 3D version
